@@ -1,0 +1,12 @@
+<%= form_for [film, review], html: { id: 'new-review' } do |f| %>
+  <article class="media mb-5">
+    <div class="media-content">
+      <div class="field">
+        <p class="control">
+          <%= f.text_area :text, class: 'textarea', placeholder: t('.text_placeholder') %>
+        </p>
+      </div>
+      <%= f.submit t('generic.submit'), class: 'button is-info is-pulled-right' %>
+    </div>
+  </article>
+<% end %>

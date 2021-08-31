@@ -1,0 +1,62 @@
+image: ruby:3.0.2-alpine3.14
+stages:
+  - test
+
+.build-base:
+  variables:
+    APK_CACHE_DIR: $CI_PROJECT_DIR/vendor/apk
+    BUNDLER_CACHE_DIR: $CI_PROJECT_DIR/.bundle
+  cache:
+    key: gems
+    paths:
+      - $APK_CACHE_DIR
+      - $BUNDLER_CACHE_DIR
+    policy: pull
+  before_script: &build-base-script
+    - apk update
+    - apk add --cache-dir $APK_CACHE_DIR build-base tzdata libpq postgresql-dev
+    - ruby -v  # Print out ruby version for debugging
+    - bundle install -j $(nproc) --path .bundle  # Install dependencies into .bundle
+
+.build-extended:
+  extends: .build-base
+  services:
+    - postgres:12.7
+  variables:
+    POSTGRES_DB: learn_rails_test
+    POSTGRES_HOST_AUTH_METHOD: trust
+    DATABASE_HOST: postgres
+  cache:
+    key: node-modules
+    paths:
+      - node_modules
+    policy: pull
+  before_script:
+    - *build-base-script
+    - apk add --cache-dir $APK_CACHE_DIR npm~7
+    - node -v
+    - npm install --global yarn@1.22.10
+    - yarn -v
+    - yarn install
+    - bundle exec bin/rails db:migrate:reset
+
+brakeman:
+  extends: .build-base
+  stage: test
+  cache:
+    policy: pull-push
+  script:
+    - bundle exec brakeman
+
+rubocop:
+  extends: .build-base
+  stage: test
+  script:
+    - bundle exec rubocop
+
+rspec:
+  extends: .build-extended
+  stage: test
+  script:
+    - bundle exec rspec spec --format progress --tag ~skip
+

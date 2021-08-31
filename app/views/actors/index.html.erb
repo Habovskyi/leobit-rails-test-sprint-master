@@ -1,0 +1,28 @@
+<%= content_for :content_title do %>
+  Normalized actors title should be here
+<% end %>
+
+<% content_for :content_title_actions do %>
+  <%= link_to new_actor_path do %>
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-plus-circle"></i>
+      </span>
+      <span><%= t('generic.add_new') %></span>
+    </span>
+  <% end %>
+<% end %>
+
+<div class="actors" data-js-actors>
+  <% if @actors.any? %>
+
+    <% @actors.each do |film| %>
+      <%= render 'list_item', item: film %>
+    <% end %>
+
+    <%== pagy_bulma_nav(@pagy) %>
+
+  <% else %>
+    <p class="has-text-centered is-size-6"><%= t('.no_items') %></p>
+  <% end %>
+</div>

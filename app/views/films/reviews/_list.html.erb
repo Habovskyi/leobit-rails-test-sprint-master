@@ -1,0 +1,9 @@
+<% if reviews.any? %>
+
+  <% reviews.each do |review| %>
+    <%= render 'films/reviews/list_item', model: review %>
+  <% end %>
+
+<% else %>
+  <p class="has-text-centered is-size-6"><%= t('.no_items') %></p>
+<% end %>

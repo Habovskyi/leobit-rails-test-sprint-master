@@ -1,0 +1,520 @@
+require:
+  - rubocop-rails
+  - rubocop-performance
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 3.0.2
+  NewCops: enable
+  Exclude:
+    - '.bundle/**/*'
+    - 'bin/*'
+    - 'db/schema.rb'
+    - 'tmp/**/*'
+    - 'vendor/**/*'
+    - '**/*.arb'
+    - '**/*.axlsx'
+
+
+# === BUNDLER =================================================================================== #
+
+# Order gems alphabetically
+Bundler/OrderedGems:
+  Enabled: true
+
+
+# === METRICS =================================================================================== #
+
+# Usually is ignored and disabled
+Metrics/AbcSize:
+  Enabled: false
+
+# Create separate methods/services to be used within block
+#
+# It is hard to limit (same as MethodLength rule),
+# but it's hard to imagine situation where 10 lines won't be enough
+Metrics/BlockLength:
+  Enabled: false
+  Max:     10
+  IgnoredMethods:
+    - included
+    - class_methods
+    - class_eval
+    - define_method
+    - instance_eval
+  Exclude:
+    - 'app/admin/**/*'
+    - 'config/**/*'
+    - 'db/**/*'
+    - 'lib/tasks/**/*'
+
+# Avoid excessive block nesting
+Metrics/BlockNesting:
+  Max: 3
+
+# The guiding principle of classes is SRP, SRP can't be accurately measured by LoC
+Metrics/ClassLength:
+  Enabled: false
+
+# You need to keep the balance between length of method and amount of methods in class.
+# A lot of small methods could be fine for lightweight services
+# and from the other hand in the heavyweight ones they can easily flood the class.
+#
+# There are several exceptions for this rule to measure it precisely,
+# and for payload mappings it's even hard to predict max amount of lines
+# in the worst scenario, so it is better to disable it and behave according to situation
+Metrics/MethodLength:
+  Enabled: false
+
+# Avoid writing of large modules
+Metrics/ModuleLength:
+  Max: 100
+
+# Avoid parameter lists longer than three or four parameters
+# https://github.com/bbatsov/ruby-style-guide#too-many-params
+Metrics/ParameterLists:
+  Max: 4
+
+
+# === LAYOUT ==================================================================================== #
+
+# Order of definitions in models
+# inspired by https://github.com/rubocop/rails-style-guide#macro-style-methods
+Layout/ClassStructure:
+  Enabled: true
+  Categories:
+    modules:
+      - extend
+      - include
+      - prepend
+    macroses:
+      - acts_as_token_authenticatable
+      - acts_as_tenant
+      - devise
+      - rolify
+      - scopify
+      - resourcify
+    associations:
+      - belongs_to
+      - has_one
+      - has_many
+      - has_one_attached
+      - has_many_attached
+    nested_attributes:
+      - accepts_nested_attributes_for
+    validations:
+      - validates
+      - validates_uniqueness_to_tenant
+      - validate
+    hooks:
+      - before_validation
+      - before_save
+      - before_create
+      - before_update
+      - before_destroy
+      - after_validation
+      - after_save
+      - after_create
+      - after_update
+      - after_destroy
+    attributes:
+      - attr_accessor
+      - attr_reader
+      - attr_writer
+      - enum
+    delegations:
+      - delegate
+    scopes:
+      - scope
+  ExpectedOrder:
+    - modules
+    - constants
+    - macroses
+    - associations
+    - nested_attributes
+    - validations
+    - hooks
+    - attributes
+    - delegations
+    - scopes
+    - public_class_methods
+    - initializer
+    - public_methods
+    - protected_methods
+    - private_methods
+  Include:
+    - 'app/models/**/*'
+    - 'lib/models/**/*'
+
+# Add empty line after all guard clauses
+Layout/EmptyLineAfterGuardClause:
+  Enabled: true
+
+# This cop checks for extra/unnecessary whitespace
+Layout/ExtraSpacing:
+  ForceEqualSignAlignment: true
+
+# Check if tabulations throughout the project are the same: 2 spaces
+Layout/IndentationStyle:
+  IndentationWidth: 2
+
+# Most readable form.
+Layout/HashAlignment:
+  EnforcedHashRocketStyle: table
+  EnforcedColonStyle:      table
+
+# Commonly used screens these days easily fit more than 80 characters.
+# But more than 100 is displayed weird in GitHub code reviews
+Layout/LineLength:
+  Max: 100
+
+# This cop checks the indentation of the method name part
+# in method calls that span more than one line.
+# Method chains are indented with 2 spaces
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle:    indented
+  IndentationWidth: 2
+
+# Multi-line expressions with operators are indented with 2 spaces
+Layout/MultilineOperationIndentation:
+  EnforcedStyle:    indented
+  IndentationWidth: 2
+
+# Do not allow splitting dot and method name
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+# Check space around operators
+Layout/SpaceAroundOperators:
+  Enabled: true
+
+
+# === LINT ====================================================================================== #
+
+# Explicitly define borders between method argument and block for this argument
+Lint/AmbiguousBlockAssociation:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*'
+
+# This cop checks for ambiguous operators in the first argument
+# of a method invocation without parentheses.
+Lint/AmbiguousOperator:
+  Enabled: false
+
+# Don't use assignment in conditions
+Lint/AssignmentInCondition:
+  AllowSafeAssignment: false
+
+# Remove debuggers from code
+Lint/Debugger:
+  Enabled: true
+
+# Inherit errors from StandardError is more typical than from RuntimeError
+Lint/InheritException:
+  EnforcedStyle: standard_error
+
+# Play around StandardError, not Exception
+Lint/RaiseException:
+  Enabled: true
+
+# Shadowing outer local variables with block parameters is often useful
+# to not reinvent a new name for the same thing, it highlights the relation
+# between the outer variable and the parameter. The cases where it's actually
+# confusing are rare, and usually bad for other reasons already, for example
+# because the method is too long.
+Lint/ShadowingOuterLocalVariable:
+  Enabled: false
+
+# There is no need in overriding Struct system-methods
+Lint/StructNewOverride:
+  Enabled: true
+
+# Suppressing exceptions can be perfectly fine, and make it to avoid to
+# explicitly type nil into the rescue since that's what you want to return,
+# or suppressing LoadError for optional dependencies
+Lint/SuppressedException:
+  Enabled: false
+
+
+# === NAMING ==================================================================================== #
+
+# Give you more freedom about naming of your methods
+# If that somehow would be related to accessor - this will be raised on PR review
+Naming/AccessorMethodName:
+  Enabled: false
+
+# Forbid 1 letter names for block arguments
+Naming/BlockParameterName:
+  AllowNamesEndingInNumbers: false
+  MinNameLength:             2
+  Exclude:
+    - 'db/**/*'
+
+# Same name of instance variable and memoization method
+Naming/MemoizedInstanceVariableName:
+  Enabled: true
+
+# Forbid 1 letter names for method arguments
+Naming/MethodParameterName:
+  AllowNamesEndingInNumbers: false
+  MinNameLength:             2
+
+# Forbid numbers in variable names
+Naming/VariableNumber:
+  EnforcedStyle: non_integer
+
+
+# === PERFORMANCE =============================================================================== #
+
+# &method(:test_method) is decent for long chains
+# and its performance greatly improved in the latest Ruby versions
+# so there are no reasons to disable it for all scenarios
+Performance/MethodObjectAsBlock:
+  Enabled: false
+
+# Use `.dup` to get an unfrozen string literal.
+Performance/UnfreezeString:
+  Enabled: false
+
+
+# === RAILS ===================================================================================== #
+
+# ActiveSupport provides semantically great methods
+Rails/ActiveSupportAliases:
+  Enabled: false
+
+# There are no reasons to enforce adding created_at/updated_at to ALL tables
+Rails/CreateTableWithTimestamps:
+  Enabled: false
+
+# Prefer `has_many through:` over `has_and_belongs_to_many`
+# to have better control on join table
+Rails/HasAndBelongsToMany:
+  Enabled: true
+
+# Allow explicitly defined actions under `only/except keys` with controllers
+Rails/LexicallyScopedActionFilter:
+  Enabled: false
+
+# Avoid usage of `try` in advantage of `&.`
+Rails/SafeNavigation:
+  ConvertTry: true
+
+# Correct environment check typos
+Rails/UnknownEnv:
+  Environments:
+    - test
+    - development
+    - staging
+    - acceptance
+    - production
+
+
+# === RSPEC ===================================================================================== #
+
+# Give more freedom on context definitions
+RSpec/ContextWording:
+  Enabled: false
+
+# Use class/module in describe
+RSpec/DescribeClass:
+  Exclude:
+    - 'spec/features/*'
+
+# Give more freedom on example definitions
+RSpec/ExampleLength:
+  Enabled: false
+
+# Ask you to name file according to class namespaces and name
+RSpec/FilePath:
+  Enabled: true
+  IgnoreMethods: true
+
+# Allow is_expected_to in one-liners
+RSpec/ImplicitSubject:
+  EnforcedStyle: single_line_only
+
+# Enforce you to define `let!` only when you use item from it explicitly
+RSpec/LetSetup:
+  Enabled: true
+
+# Give more freedom on receive/have_received usage
+RSpec/MessageSpies:
+  Enabled: false
+
+# Limit amount of expects under one test
+#
+# There are situations where checking everything in one spec makes sense
+# from performance reasons, but hard to imagine situation where we'd need
+# to test more than 3 conditions at once
+RSpec/MultipleExpectations:
+  Max: 3
+
+# It makes no sense to force you to give subject a name
+# Plus, it just creates confusion about the fact that you're using `subject`
+RSpec/NamedSubject:
+  Enabled: false
+
+# Amount of nesting in your tests
+#
+# This rule has several exceptions, so disabled
+# Good grouping and naming is better than
+RSpec/NestedGroups:
+  Enabled: false
+
+
+# === STYLE ===================================================================================== #
+
+# Allow private to be inlined in method definitions.
+Style/AccessModifierDeclarations:
+  Enabled: false
+
+# Allow us to use `alias_method` in class body
+# alias has implicit side effects on inheritance
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
+# This cop enforces the use of consistent method names from the Enumerable module
+Style/CollectionMethods:
+  Enabled: true
+
+# There is no need to make docs mandatory for all classes.
+# Though yard usage is appreciated
+Style/Documentation:
+  Enabled: false
+
+# Allow us to use empty `case`
+Style/EmptyCaseCondition:
+  Enabled: false
+
+# Empty method can be described in one-line or has to
+# contain comment about its further content
+Style/EmptyMethod:
+  EnforcedStyle: compact
+
+# Give more freedom to choose how to format string
+Style/FormatString:
+  Enabled: false
+
+# Frozen string literals has to be true
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: always_true
+
+# Prefer `each_key/each_value` over `keys.each/values.each`
+Style/HashEachMethods:
+  Enabled: true
+
+# Mixing the styles creates complexity in understanding how to retrieve the value
+Style/HashSyntax:
+  EnforcedStyle: ruby19_no_mixed_keys
+
+# Prefer explicit `call` over `.()` shortcut
+Style/LambdaCall:
+  EnforcedStyle: call
+
+# do / end blocks should be used for side effects,
+# methods that run a block for side effects and have
+# a useful return value are rare, assign the return
+# value to a local variable for those cases.
+Style/MethodCalledOnDoEndBlock:
+  Enabled: true
+
+# Prefer to use parentheses for all methods you create
+# https://github.com/rubocop/ruby-style-guide#dsl-method-calls
+#
+# There still will be exceptions, just agree about the convention with team
+# and add needed ones to IgnoredMethods
+Style/MethodCallWithArgsParentheses:
+  Enabled: true
+  Exclude:
+    - 'config/**/*'
+    - 'config.ru'
+    - 'db/**/*'
+    - 'spec/**/*'
+  IgnoredMethods:
+    - create_table
+    - extend
+    - javascript_include_tag
+    - javascript_pack_tag
+    - head
+    - include
+    - load
+    - mail
+    - puts
+    - raise
+    - redirect_back
+    - redirect_to
+    - render
+    - render_to_string
+    - render_wizard
+    - require
+    - require_relative
+    - respond_with
+    - send_data
+    - stylesheet_link_tag
+    - stylesheet_pack_tag
+
+# Define methods only with arguments in parentheses
+Style/MethodDefParentheses:
+  EnforcedStyle: require_parentheses
+
+# Big numbers with underscore started from one thousand
+Style/NumericLiterals:
+  MinDigits: 4
+
+# Does not allow to assign values to local var under braces in condition check
+Style/ParenthesesAroundCondition:
+  AllowSafeAssignment: false
+
+# A specialized exception class will take one or more arguments and construct the message from it.
+# So both variants make sense.
+Style/RaiseArgs:
+  Enabled: false
+
+# Prefer `%r{}` over `//`. It better plays with slashes
+Style/RegexpLiteral:
+  EnforcedStyle: percent_r
+
+# This cop enforces consistency between 'return nil' and 'return'
+Style/ReturnNil:
+  Enabled: true
+
+# Suggest `&.` usage instead of playing around `nil`
+Style/SafeNavigation:
+  Enabled: true
+
+# Fail is an alias of raise. Avoid aliases, it's more cognitive load for no gain.
+# The argument that fail should be used to abort the program is wrong too,
+# there's Kernel#abort for that.
+Style/SignalException:
+  EnforcedStyle: only_raise
+
+# Enforcing the names of variables? To single letter ones? Just no.
+Style/SingleLineBlockParams:
+  Enabled: false
+
+# This cop checks for the use of strings as keys in hashes.
+# Symbols are preferable, but there are many business logic exceptions for this rule
+Style/StringHashKeys:
+  Enabled: false
+
+# Quotes around strings
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+# Enforce to use %i[] for array of two or more symbol elements
+# https://github.com/rubocop/ruby-style-guide#i
+Style/SymbolArray:
+  Enabled: true
+  MinSize: 2
+
+# Use shortcuts instead of block definition
+# Though, FastJsonApi, for example, provides a possibility
+# to use an attribute ONLY with full proc definition
+Style/SymbolProc:
+  AllowMethodsWithArguments: true
+
+# Wrap complex conditions in ternary expressions with parentheses
+Style/TernaryParentheses:
+  EnforcedStyle: require_parentheses_when_complex

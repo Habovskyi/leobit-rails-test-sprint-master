@@ -1,0 +1,18 @@
+<aside id="sidebar" class="sidebar column is-one-fifth p-0">
+  <div class="menu">
+    <p class="menu-label">General</p>
+    <ul class="menu-list">
+      <li><%= sidebar_link t('actors.nav'), actors_path, :actors %></li>
+      <li>
+        <%= sidebar_link films_path, :films do %>
+        <span class="icon-text">
+        <span class="icon">
+          <i class="fas fa-film"></i>
+        </span>
+        <span><%= t('films.nav') %></span>
+      </span>
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</aside>

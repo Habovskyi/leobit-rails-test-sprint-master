@@ -1,0 +1,28 @@
+<article class="media container">
+  <figure class="media-left film-photo">
+    <p class="image is-128x128">
+      <%= image_tag item.photo.blank? ? 'https://bulma.io/images/placeholders/128x128.png' : url_for(item.photo) %>
+    </p>
+  </figure>
+  <div class="media-content">
+    <div class="content">
+      <p>
+        <%= item.name %>
+        <br>
+        <%= item.description %>
+      </p>
+    </div>
+
+    <div>
+      0
+      <i class="fa fa-eye"></i>
+    </div>
+
+  </div>
+  <div class="media-right">
+    <%= button_tag '', class: 'delete', data: { 'js-film-delete': true,
+                                                turbolinks: false,
+                                                confirm: t('.delete_confirm'),
+                                                url: film_path(item) } %>
+  </div>
+</article>

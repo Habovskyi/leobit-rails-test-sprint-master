@@ -1,0 +1,42 @@
+<% content_for :content_title_class %>
+<% content_for :content_title_actions do %>
+  <%= link_to actors_path do %>
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-arrow-left"></i>
+      </span>
+      <span><%= t('generic.back') %></span>
+    </span>
+  <% end %>
+<% end %>
+
+<%= content_for :content_title do %>
+  <span class="icon-text">
+    <span class="icon">
+      <i class="fas fa-plus"></i>
+    </span>
+    <span><%= t('.title') %></span>
+  </span>
+<% end %>
+
+<%= simple_form_for @actor do |f| %>
+  <div class="content p-5 px-6">
+    <div class="columns">
+      <div class="column is-two-fifths">
+        <%= f.input :full_name, required: false %>
+        <%= f.input :description, as: :text %>
+      </div>
+
+      <div class="column">
+        <%= f.input :number_of_oscars, as: :integer, input_html: { value: nil } %>
+        <%= f.input :gender, collection: enum_collection_for_select(Actor, :gender, placeholder: true),
+                             prompt: false %>
+        <%= f.input :is_married, as: :boolean %>
+      </div>
+    </div>
+  </div>
+
+  <div class="content-footer has-text-right">
+    <%= f.button :submit, value: t('generic.save') %>
+  </div>
+<% end %>

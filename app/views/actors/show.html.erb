@@ -1,0 +1,53 @@
+<% content_for :content_title_class, 'is-danger' %>
+<%= content_for :content_title do %>
+  <span class="icon-text">
+    <span class="icon">
+      <i class="fas fa-user"></i>
+    </span>
+    <span><%= @actor.full_name %></span>
+  </span>
+<% end %>
+
+<% content_for :content_title_actions do %>
+  <%= link_to actors_path do %>
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fas fa-arrow-left"></i>
+      </span>
+      <span><%= t('generic.back') %></span>
+    </span>
+  <% end %>
+<% end %>
+
+<div class="content p-5 px-6">
+  <div class="columns">
+    <div class="column is-two-fifths">
+      <figure class="image film-photo m-0">
+        <%= image_tag 'https://bulma.io/images/placeholders/128x128.png' %>
+      </figure>
+    </div>
+    <div class="column">
+      <div class="columns">
+        <div class="group column is-half mb-5">
+          <label class="has-text-weight-bold mr-3">
+            <%= Actor.human_attribute_name(:gender) %>
+            :
+          </label>
+          <p class="has-text-justified is-inline"><%= @actor.gender %></p>
+        </div>
+
+        <div class="group column is-half mb-5">
+          <label class="has-text-weight-bold mr-3">
+            <%= Actor.human_attribute_name(:number_of_oscars) %>
+            :
+          </label>
+          <p class="has-text-justified is-inline"><%= @actor.number_of_oscars %></p>
+        </div>
+      </div>
+
+      <div class="group has-text-justified">
+        <%= @actor.description %>
+      </div>
+    </div>
+  </div>
+</div>

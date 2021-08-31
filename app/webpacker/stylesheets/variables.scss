@@ -1,0 +1,9 @@
+// File for CSS framework variables overrides
+
+@import "~bulma/sass/utilities/derived-variables";
+
+$menu-item-active-background-color: $primary;
+$menu-item-hover-background-color: $light;
+
+$footer-background-color: $primary;
+$footer-color: $white;

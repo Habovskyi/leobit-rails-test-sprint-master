@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= yield(:title).presence || page_title %></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= favicon_pack_tag 'favicon.png' %>
+
+    <%= stylesheet_packs_with_chunks_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <!-- That's not a Rails magic, but manually written functionality in LayoutsHelper -->
+    <%= controller_stylesheet_pack_tag media: 'all', data: { turbolinks_track: :reload } %>
+    <%= action_stylesheet_pack_tag     media: 'all', data: { turbolinks_track: :reload } %>
+
+    <%= javascript_packs_with_chunks_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <!-- That's not a Rails magic, but manually written functionality in LayoutsHelper -->
+    <%= controller_javascript_pack_tag data: { turbolinks_track: :reload } %>
+    <%= action_javascript_pack_tag     data: { turbolinks_track: :reload } %>
+  </head>
+
+  <body>
+    <div id="flash-container" data-flash="<%= flash.to_h.to_json %>"></div>
+
+    <div id="body-wrapper" class="section columns">
+      <%= render 'layouts/sidebar' %>
+      <%= render 'layouts/content' %>
+    </div>
+
+    <%= render 'layouts/footer' %>
+  </body>
+</html>
+

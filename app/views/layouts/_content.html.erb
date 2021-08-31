@@ -1,0 +1,18 @@
+<div class="section column is-four-fifth pt-0">
+  <% if yield(:content_title).present? %>
+    <div class="<%= ['hero', 'is-small', 'is-primary', yield(:content_title_class)].compact.join(' ') %>">
+      <div class="hero-body level">
+        <p class="title level-left mb-0">
+          <%= yield(:content_title) %>
+        </p>
+        <div class="actions level-right">
+          <%= yield(:content_title_actions) %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="<%= ['box', 'content', yield(:content_container_class)].reject(&:blank?).join(' ') %>">
+    <%= yield %>
+  </div>
+</div>

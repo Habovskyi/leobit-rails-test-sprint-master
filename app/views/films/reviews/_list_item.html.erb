@@ -1,0 +1,17 @@
+<article class="media">
+  <div class="media-content">
+    <div class="content">
+      <p>
+        <strong><%= t('generic.anonymous_user') %></strong>
+        <br>
+        <%= model.text %>
+      </p>
+    </div>
+  </div>
+
+  <div class="media-right">
+    <%= link_to '', review_path(model), method: :delete,
+                                        class: 'delete',
+                                        data: { confirm: t('.delete_confirm') } %>
+  </div>
+</article>

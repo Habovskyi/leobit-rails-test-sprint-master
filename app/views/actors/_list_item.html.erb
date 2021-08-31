@@ -1,0 +1,16 @@
+<article class="media container">
+  <figure class="media-left actor-photo">
+    <p class="image is-128x128">
+      <%= image_tag 'https://bulma.io/images/placeholders/128x128.png' %>
+    </p>
+  </figure>
+
+  <div class="media-content">
+    Add author card
+  </div>
+  <div class="media-right">
+    <%= link_to '', actor_path(item), method: :delete,
+                                      class: 'delete',
+                                      data: { confirm: t('.delete_confirm') } %>
+  </div>
+</article>

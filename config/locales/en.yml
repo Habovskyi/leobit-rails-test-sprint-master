@@ -1,0 +1,74 @@
+en:
+  app_name: Learn Rails
+  default_page_title: The best Rails practicing website
+  company_name: Leobit
+  initial_year: 2021
+  page_title: '%{app_name} | %{title}'
+
+  generic:
+    add: Add
+    add_new: Add New
+    back: Back
+    save: Save
+    submit: Submit
+    anonymous_user: Anonymous User
+
+  mailers:
+    film_mailer:
+      film_added:
+        subject: 'You Project Brand | Film added'
+        greetings: Greetings!
+        film_added: Someone has just added a film named
+        check: Take a time to check if everything is fine with its content!
+
+  activerecord:
+    attributes:
+      actor:
+        full_name: Name & Surname
+        number_of_oscars: Count of Oscars
+
+  enums:
+    actor:
+      genders:
+        placeholder: Select gender
+        male: Male
+        female: Female
+        other: Other gender
+
+  actors:
+    nav: Actors
+    new:
+      title: Create Actor
+    create:
+      success: "You've added a new actor!"
+    destroy:
+      message: '"%{name}" has been removed.'
+    index:
+      no_items: There are no added actors yet
+    list_item:
+      delete_confirm: 'Do you want to remove this actor?'
+
+  films:
+    nav: Films
+    create:
+      success: "You've added a new film!"
+    destroy:
+      message: "You've removed a film."
+      json_message: 'Film "%{name}" has been removed.'
+    index:
+      no_items: There are no films yet
+    list_item:
+      delete_confirm: Do you want to remove this film?
+    reviews:
+      create:
+        success: Review has been successfully added!
+      form:
+        text_placeholder: Write a review...
+      list:
+        no_items: There are no reviews yet. Feel free to write the first one
+      list_item:
+        delete_confirm: Do you want to remove this review?
+
+  reviews:
+    destroy:
+      message: Your review has been removed!

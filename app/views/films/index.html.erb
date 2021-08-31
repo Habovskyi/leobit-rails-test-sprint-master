@@ -1,0 +1,20 @@
+<%= content_for :content_title do %>
+  <span class="icon-text">
+    <span class="icon">
+      <i class="fas fa-film"></i>
+    </span>
+    <span><%= t('films.nav') %></span>
+  </span>
+<% end %>
+
+<div class="films" data-js-films>
+  <% if @films.any? %>
+
+    <% @films.each do |film| %>
+      <%= render 'list_item', item: film %>
+    <% end %>
+
+  <% else %>
+    <p class="has-text-centered is-size-6"><%= t('.no_items') %></p>
+  <% end %>
+</div>
